@@ -1,17 +1,15 @@
-# Virtual Coach Mel for Proposing Useful Preparatory Activities for Quitting Smoking
+# Virtual Coach Kai for Preparing for Quitting Smoking with Human Support
 
-This is the implementation of the virtual coach Mel that proposes preparatory activities for quitting smoking and becoming more physically active in up to 5 conversational sessions. Besides proposing preparatory activities, Mel also proposes activities that are meant to persuade people of the usefulness of certain competencies for quitting smoking.
+This is the implementation of the virtual coach Kai that ...
 
 The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment), [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev), as well as [the implementation of the virtual coach Sam](https://github.com/PerfectFit-project/virtual_coach_rl_persuasion_algorithm).
 
 
 ## Conversation Structure
 
-Each user can have up to 5 conversational sessions with Mel. These sessions have this structure:
+Each user can have up to 5 conversational sessions with Kai. These sessions have this structure:
 
-<img src = "Readme_images/conversation_structure.png" width = "500" title="Conversation structure.">
-
-A demo video of the second conversational session can be found [here](https://youtu.be/RywcZSHOs_g).
+A demo video of the second conversational session can be found ... .
 
 
 ## Components
