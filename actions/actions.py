@@ -72,9 +72,12 @@ class ActionCheckNameslot(Action):
             dispatcher.utter_message(template="utter_multiple_open_chats")
             return [FollowupAction('action_end_dialog')]
  
-       # For safety we want only one word for the name
-       # Splits at whitespace
-        if len(user_name.split()) == 1:
+        # For safety we want only one word for the name
+        # Splits at whitespace
+        # And also want to make sure there are no numbers in there
+        # (some people may type their prolific ID)
+        # and that people do not just type "hi" or "trial"
+        if len(user_name.split()) == 1 and user_name.lower() != "hi" and user_name.lower() != "trial" and not "5" in user_name and not "6" in user_name:
             return[SlotSet("user_name_exists", True)]
 
         else:

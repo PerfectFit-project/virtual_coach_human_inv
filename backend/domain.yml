@@ -312,11 +312,11 @@ responses:
   # Have some alternative formulations for the greetings in case people 
   # re-load the first session.
   utter_greet_first_time:
-  - text: "Hey there, I'm your virtual coach Mel."
-  - text: "Hi there, I'm Mel, your virtual coach."
-  - text: "Hello, my name is Mel and I'll be your virtual coach."
-  - text: "Welcome, I'm Mel, your virtual coach."
-  - text: "Greetings, I'm Mel, your virtual coach."
+  - text: "Hey there, I'm your virtual coach Kai."
+  - text: "Hi there, I'm Kai, your virtual coach."
+  - text: "Hello, my name is Kai and I'll be your virtual coach."
+  - text: "Welcome, I'm Kai, your virtual coach."
+  - text: "Greetings, I'm Kai, your virtual coach."
   utter_ask_user_name_slot:
   - text: "How may I call you?"
   utter_confirm_name:
