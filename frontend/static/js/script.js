@@ -13,7 +13,7 @@ $(document).ready(function () {
 	
 	showBotTyping();
 	$('.usrInput').attr("disabled",true);
-	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
+	$(".usrInput").prop('placeholder', "Wait for Kai's message.");
 	
 	//start a session
 	if (session_num == "1"){
@@ -79,7 +79,7 @@ function setUserResponse(message) {
 	scrollToBottomOfResults();
 	showBotTyping();
 	$('.usrInput').attr("disabled",true);
-	$(".usrInput").prop('placeholder', "Wait for Mel's response.");
+	$(".usrInput").prop('placeholder', "Wait for Kai's response.");
 	$(".suggestions").remove();
 }
 
@@ -212,7 +212,7 @@ function doScaledTimeout(i, response, summed_timeout) {
 		if (i < response.length - 1){
 			showBotTyping();
 			$('.usrInput').attr("disabled",true);
-			$(".usrInput").prop('placeholder', "Wait for Mel's response.");
+			$(".usrInput").prop('placeholder', "Wait for Kai's response.");
 		}
 	}, summed_timeout);
 }
