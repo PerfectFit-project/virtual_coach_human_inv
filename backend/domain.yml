@@ -297,13 +297,6 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-  # Index of new cluster
-  cluster_new_index:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: custom
     
 
 responses:
