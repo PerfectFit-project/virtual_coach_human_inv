@@ -19,34 +19,30 @@ intents:
 - start_session_last
 - mood_curr_session_last
 
-### activity experience and dropout
+### Activity experience and dropout
 - effort_answer
 - confirm_activity_experience
 - deny_activity_experience
 - confirm_dropout
 
-### states
+### States
 - confirm_state_importance
 - confirm_state_selfefficacy
 - confirm_state_humansupport
-- confirm_state_4
-- confirm_state_5
-- confirm_state_6
-- confirm_state_7
-- confirm_state_8
-- confirm_state_9
-- confirm_state_busy
 - confirm_state_energy
 
-# propose new activity
+# Propose new activity
 - confirm_activity_read
 
-# end session
+# End session
 - confirm_next_part
 - confirm_goodbye
 
 entities:
 - session_num:
+    influence_conversation: false
+# Whether the participant is a smoker or vaper
+- smoker:
     influence_conversation: false
 
 - mood:
@@ -85,6 +81,13 @@ slots:
     mappings:
     - type: from_entity
       entity: session_num
+  smoker:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: smoker
   mood:
     type: text
     initial_value: ''
@@ -284,7 +287,18 @@ responses:
   - text: "Please let me know how I can call you. It does not need to be your real name."
   - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
-  - text: "I have mentioned my name, but let me also tell you a bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
+  # smoker formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "I have mentioned my name, but let me also tell you a bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
+  # vaper formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "I have mentioned my name, but let me also tell you a bit about what I do: My goal is to help people prepare for quitting vaping. And since becoming more physically active may make it easier to quit vaping, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
   - text: "Why prepare to quit? Because proper preparation can help to quit successfully."
   utter_purpose_3:
@@ -320,7 +334,18 @@ responses:
   utter_intro_session1_1:
   - text: "Now, let me tell you what we'll do in this session."
   utter_intro_session1_2:
-  - text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting smoking."
+  # smoker formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting smoking."
+  # vaper formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting vaping."
   utter_intro_session1_3:
   - text: "Next, I'll recommend you a preparatory activity to do after this and before the next session, which you'll get invited to about 2 days from now."
   utter_intro_session1_4:
@@ -508,21 +533,60 @@ responses:
           value: "4"
       text: "First we'll take a look at your experience, if any, with the activity I gave you in our last session."
   utter_intro_session_mid_3:
+    # session 2, smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "2"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Then I'll again ask you a few questions to learn about your current situation regarding preparing for quitting smoking."
+    # session 2, vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Then I'll again ask you a few questions to learn about your current situation regarding preparing for quitting vaping."
+    # session 3, smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "3"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Moving on, I'll ask you a few questions to get a better understanding of where you're at in terms of preparing to quit smoking."
+    # session 3, vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Moving on, I'll ask you a few questions to get a better understanding of where you're at in terms of preparing to quit vaping."
+    # session 4, smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "4"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Just like last time, I'll then ask you a few questions to understand your current situation and preparation for quitting smoking."
+    # session 4, vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Just like last time, I'll then ask you a few questions to understand your current situation and preparation for quitting vaping."
   utter_intro_session_mid_4:
     - condition:
         - type: slot
@@ -842,7 +906,41 @@ responses:
     - text: "Got it! Thanks for letting me know."
 
   utter_ask_dropout:
-  - text: "Currently you are taking part in a paid experiment. Imagine this was an unpaid smoking cessation program.\nHow likely would you then have quit the program or returned to this session?"
+  # smoker formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "Currently you are taking part in a paid experiment. Imagine this was an unpaid smoking cessation program.\nHow likely would you then have quit the program or returned to this session?"
+    buttons:
+    - payload: /confirm_dropout{"dropout_response":"-5"}
+      title: "-5 (definitely would have quit the program)"
+    - payload: /confirm_dropout{"dropout_response":"-4"}
+      title: "-4"
+    - payload: /confirm_dropout{"dropout_response":"-3"}
+      title: "-3"
+    - payload: /confirm_dropout{"dropout_response":"-2"}
+      title: "-2"
+    - payload: /confirm_dropout{"dropout_response":"-1"}
+      title: "-1"
+    - payload: /confirm_dropout{"dropout_response":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_dropout{"dropout_response":"1"}
+      title: "1"
+    - payload: /confirm_dropout{"dropout_response":"2"}
+      title: "2"
+    - payload: /confirm_dropout{"dropout_response":"3"}
+      title: "3"
+    - payload: /confirm_dropout{"dropout_response":"4"}
+      title: "4"
+    - payload: /confirm_dropout{"dropout_response":"5"}
+      title: "5 (definitely would have returned to this session)"
+  # vaper condition
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Currently you are taking part in a paid experiment. Imagine this was an unpaid vaping cessation program.\nHow likely would you then have quit the program or returned to this session?"
     buttons:
     - payload: /confirm_dropout{"dropout_response":"-5"}
       title: "-5 (definitely would have quit the program)"
@@ -869,33 +967,98 @@ responses:
     
   ### Ask state questions
   utter_state_question_intro:
+  # session 1, smoker formulation
   - condition:
       - type: slot
         name: session_num
         value: "1"
+      - type: slot
+        name: smoker
+        value: "1"
     text: "Now I'll ask you a few questions about your current situation regarding preparing for quitting smoking."
+  # session 1, vaper formulation
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Now I'll ask you a few questions about your current situation regarding preparing for quitting vaping."
+  # session 2, smoker formulation
   - condition:
       - type: slot
         name: session_num
         value: "2"
+      - type: slot
+        name: smoker
+        value: "1"
     text: "Now I'd appreciate it if you could answer a few questions about your current preparation for quitting smoking."
+  # session 2, vaper formulation
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Now I'd appreciate it if you could answer a few questions about your current preparation for quitting vaping."
+  # session 3, smoker formulation
   - condition:
       - type: slot
         name: session_num
         value: "3"
+      - type: slot
+        name: smoker
+        value: "1"
     text: "Now I'd like to ask you some questions about your current preparation for quitting smoking."
+  # session 3, vaper formulation
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Now I'd like to ask you some questions about your current preparation for quitting vaping."
+  # session 4, smoker formulation
   - condition:
       - type: slot
         name: session_num
         value: "4"
+      - type: slot
+        name: smoker
+        value: "1"
     text: "Now I have a few questions about your current preparation for quitting smoking."
+  # session 4, vaper formulation
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Now I have a few questions about your current preparation for quitting vaping."
+  # session 5, smoker formulation
   - condition:
       - type: slot
         name: session_num
         value: "5"
+      - type: slot
+        name: smoker
+        value: "1"
     text: "Now I'll again ask you a few questions to understand your current situation regarding preparing for quitting smoking."
+  # session 5, vaper formulation
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "Now I'll again ask you a few questions to understand your current situation regarding preparing for quitting vaping."
 
-  - text: "I'll now ask you a few questions about your current situation when it comes to preparing for quitting smoking. I hope that's okay with you."
+  - text: "I'll now ask you a few questions about your current situation when it comes to preparing to change your behavior. I hope that's okay with you."
   
   utter_state_question_intro_2:
   - condition:
@@ -926,7 +1089,13 @@ responses:
     
   - text: "I've prepared 4 questions that will help me get a clear understanding of your position."
   utter_state_question_importance:
-  - buttons:
+  # smoker formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "1) How important is it to you to prepare for quitting smoking now?"
+    buttons:
     - payload: /confirm_state_importance{"state_importance":"0"}
       title: "0 (not at all important)"
     - payload: /confirm_state_importance{"state_importance":"1"}
@@ -949,9 +1118,43 @@ responses:
       title: "9"
     - payload: /confirm_state_importance{"state_importance":"10"}
       title: "10 (desperately important)"
-    text: "1) How important is it to you to prepare for quitting smoking now?"
+  # vaper formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "1) How important is it to you to prepare for quitting vaping now?"
+    buttons:
+    - payload: /confirm_state_importance{"state_importance":"0"}
+      title: "0 (not at all important)"
+    - payload: /confirm_state_importance{"state_importance":"1"}
+      title: "1"
+    - payload: /confirm_state_importance{"state_importance":"2"}
+      title: "2"
+    - payload: /confirm_state_importance{"state_importance":"3"}
+      title: "3"
+    - payload: /confirm_state_importance{"state_importance":"4"}
+      title: "4"
+    - payload: /confirm_state_importance{"state_importance":"5"}
+      title: "5"
+    - payload: /confirm_state_importance{"state_importance":"6"}
+      title: "6"
+    - payload: /confirm_state_importance{"state_importance":"7"}
+      title: "7"
+    - payload: /confirm_state_importance{"state_importance":"8"}
+      title: "8"
+    - payload: /confirm_state_importance{"state_importance":"9"}
+      title: "9"
+    - payload: /confirm_state_importance{"state_importance":"10"}
+      title: "10 (desperately important)"
   utter_state_question_selfefficacy:
-  - buttons:
+  # smoker formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "2) How confident are you that you can prepare for quitting smoking now?"
+    buttons:
     - payload: /confirm_state_selfefficacy{"state_selfefficacy":"0"}
       title: "0 (not at all confident)"
     - payload: /confirm_state_selfefficacy{"state_selfefficacy":"1"}
@@ -974,7 +1177,35 @@ responses:
       title: "9"
     - payload: /confirm_state_selfefficacy{"state_selfefficacy":"10"}
       title: "10 (highly confident)"
-    text: "2) How confident are you that you can prepare for quitting smoking now?"
+  # vaper formulation
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "2) How confident are you that you can prepare for quitting vaping now?"
+    buttons:
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"0"}
+      title: "0 (not at all confident)"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"1"}
+      title: "1"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"2"}
+      title: "2"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"3"}
+      title: "3"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"4"}
+      title: "4"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"5"}
+      title: "5"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"6"}
+      title: "6"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"7"}
+      title: "7"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"8"}
+      title: "8"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"9"}
+      title: "9"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"10"}
+      title: "10 (highly confident)"
   utter_state_question_humansupport:
   - buttons:
     - payload: /confirm_state_humansupport{"state_humansupport":"-10"}
@@ -1111,21 +1342,60 @@ responses:
           name: session_num
           value: "1"
       text: "Now let's look at a preparatory activity that can help you in your current situation."
+    # smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "2"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Our next step is to look at a new activity that will help you prepare for quitting smoking."
+    # vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Our next step is to look at a new activity that will help you prepare for quitting vaping."
+    # smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "3"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Next, we'll look at a new activity that will help you get ready for quitting smoking."
+    # vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Next, we'll look at a new activity that will help you get ready for quitting vaping."
+    # smoker formulation
     - condition:
         - type: slot
           name: session_num
           value: "4"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "Let's move on to looking at a new activity that will help you get ready for quitting smoking."
+    # vaper formulation
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "Let's move on to looking at a new activity that will help you get ready for quitting vaping."
     - condition:
         - type: slot
           name: session_num
@@ -1133,8 +1403,8 @@ responses:
       text: "We'll now look at a new preparatory activity that I think is relevant to your current situation."
       
     - text: "Now let's turn our attention to an activity that can benefit your current situation."
-    - text: "Let's move on to an activity that can support you in your efforts to prepare for quitting smoking."
-    - text: "Next, we'll take a closer look at an activity that can assist you in preparing to quit smoking."
+    - text: "Let's move on to an activity that can support you in your efforts to prepare for changing your behavior."
+    - text: "Next, we'll take a closer look at an activity that can assist you in preparing to change your behavior."
   utter_advise_activity:
     - condition:
         - type: slot
@@ -1854,11 +2124,24 @@ responses:
           name: mood_quadrant
           value: "la_lv"
       text: "Oh this doesn't feel good to hear. I'm sending positive vibes your way and hoping this session will make you feel a bit better."
+    # smoker formulation
     - condition:
         - type: slot
           name: mood_quadrant
           value: "la_lv"
+        - type: slot
+          name: smoker
+          value: "1"
       text: "So sorry about that! Feel better soon - hopefully talking about preparing to quit smoking and becoming more physically active can help a bit."
+    # vaper formulation
+    - condition:
+        - type: slot
+          name: mood_quadrant
+          value: "la_lv"
+        - type: slot
+          name: smoker
+          value: "0"
+      text: "So sorry about that! Feel better soon - hopefully talking about preparing to quit vaping and becoming more physically active can help a bit."
     # High arousal, low valence
     - condition:
         - type: slot
