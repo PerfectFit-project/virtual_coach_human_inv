@@ -41,7 +41,7 @@ intents:
 entities:
 - session_num:
     influence_conversation: false
-# Whether the participant is a smoker or vaper
+# Whether the participant is a smoker (1) or vaper (0)
 - smoker:
     influence_conversation: false
 
@@ -130,7 +130,7 @@ slots:
     mappings:
     - type: custom
         
-  ### states
+  ### States
   state_importance:
     type: text
     initial_value: ''
@@ -160,7 +160,7 @@ slots:
     - type: from_entity
       entity: state_energy
       
-  ### activity experience
+  ### Activity experience
   # Verb to mention the previous activity
   activity_prev_verb:
     type: text
@@ -168,7 +168,7 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-  # effort
+  # Effort
   effort:
     type: text
     initial_value: ''
@@ -183,7 +183,7 @@ slots:
     mappings:
     - type: from_entity
       entity: effort_level
-  # activity experience
+  # Activity experience
   activity_experience_slot:
     type: text
     initial_value: ''
@@ -200,7 +200,7 @@ slots:
     - type: from_text
       conditions:
         - active_loop: activity_experience_mod_form  
-  # dropout
+  # Dropout
   dropout_response:
     type: text
     initial_value: ''

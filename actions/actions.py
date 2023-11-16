@@ -216,6 +216,7 @@ class ActionLoadSessionNotFirst(Action):
 
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
+        smoker = tracker.get_slot("smoker")
 
         session_loaded = True
         mood_prev = ""
@@ -247,17 +248,17 @@ class ActionLoadSessionNotFirst(Action):
                 if user_name_result != "default":
                     user_name_exists = True
 
-                # check if user has done previous session before '
+                # Check if user has done previous session before '
                 # (i.e., if session data is saved from previous session)
                 query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
+                cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_energy"])
                 done_previous_result = cur.fetchone()
 
                 if done_previous_result is None:
                     session_loaded = False
  
                 else:
-                    # check if user has not done this session before
+                    # Check if user has not done this session before
                     # checks if some data on this session is already saved in database
                     # this basically means that it checks whether the user has already 
                     # completed the session part until the dropout question before,
@@ -277,6 +278,10 @@ class ActionLoadSessionNotFirst(Action):
                         cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
                         act_index = int(cur.fetchone()[0])
                         activity_verb_prev = df_act.iloc[act_index]["Verb"]
+                        # Adapt verb formulation to vaping if needed
+                        if smoker == "0":
+                            activity_verb_prev = activity_verb_prev.replace("smoking", "vaping")
+                            activity_verb_prev = activity_verb_prev.replace("smoke", "vape")
      
 
         except mysql.connector.Error as error:
@@ -411,9 +416,8 @@ class ActionSaveSession(Action):
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
 
-            slots_to_save = ["mood", "state_1", "state_2", "state_3",
-                             "state_4", "state_5", "state_6", "state_7",
-                             "state_8", "state_9", "state_busy", "state_energy",
+            slots_to_save = ["mood", "state_importance", "state_selfefficacy", 
+                             "state_humansupport", "state_energy",
                              "activity_new_index"]
             for slot in slots_to_save:
 
@@ -450,7 +454,7 @@ def get_previous_activity_indices_from_db(prolific_id):
         cur.execute(query, [prolific_id, "activity_new_index"])
         result = cur.fetchall()
 
-        # So far, we have sth. like [('49',), ('44',)]
+        # So far, we have sth. like [('19',), ('22',)]
         result = [i[0] for i in result]
 
     except mysql.connector.Error as error:
@@ -503,6 +507,7 @@ class ActionChooseActivity(Action):
     async def run(self, dispatcher, tracker, domain):
 
         prolific_id = tracker.current_state()['sender_id']
+        smoker = tracker.current_state()['smoker']
 
         # get indices of previously assigned activities
         # this returns a list of strings
@@ -534,18 +539,36 @@ class ActionChooseActivity(Action):
         # Compute how often each activity has already been chosen in the past
         activity_counts = get_activity_counts_from_db()
 
-        # choose random new activity
+        # Choose random new activity
         # probability to be chosen is higher if activity has been chosen less often so far
         # Activity indices start at 0
         # If the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
         new_act_index = random.choices(remaining_indices,
                                        weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in remaining_indices],
                                        k = 1)[0]
+        
+        # Determine new activity verb
+        activity_new_verb = df_act.loc[new_act_index, "Verb"]
+        
+        # Determine new activity formulation in the session
+        activity_new_formulation_session = df_act.loc[new_act_index, 'Formulation Session']
+        
+        # Determine new activity formulation in the email
+        activity_new_formulation_email = df_act.loc[new_act_index, 'Formulation Email']
+        
+        # Adapt formulations to vaping if needed
+        if smoker == "0":
+            activity_new_verb = activity_new_verb.replace("smoking", "vaping")
+            activity_new_verb = activity_new_verb.replace("smoke", "vape")
+            activity_new_formulation_session = activity_new_formulation_session.replace("smoking", "vaping")
+            activity_new_formulation_session = activity_new_formulation_session.replace("smoke", "vape")
+            activity_new_formulation_email = activity_new_formulation_email.replace("smoking", "vaping")
+            activity_new_formulation_email = activity_new_formulation_email.replace("smoke", "vape")
 
-        return [SlotSet("activity_formulation_new_session", df_act.loc[new_act_index, 'Formulation Session']), 
-                SlotSet("activity_formulation_new_email", df_act.loc[new_act_index, 'Formulation Email']),
+        return [SlotSet("activity_formulation_new_session", activity_new_formulation_session), 
+                SlotSet("activity_formulation_new_email", activity_new_formulation_email),
                 SlotSet("activity_new_index", str(new_act_index)),
-                SlotSet("activity_new_verb", df_act.loc[new_act_index, "Verb"])]
+                SlotSet("activity_new_verb", activity_new_verb)]
 
 
 # Send reminder email with activity
