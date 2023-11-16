@@ -26,9 +26,9 @@ intents:
 - confirm_dropout
 
 ### states
-- confirm_state_1
-- confirm_state_2
-- confirm_state_3
+- confirm_state_importance
+- confirm_state_selfefficacy
+- confirm_state_humansupport
 - confirm_state_4
 - confirm_state_5
 - confirm_state_6
@@ -54,25 +54,11 @@ entities:
 - mood_quadrant:
     influence_conversation: false
 
-- state_1:
+- state_importance:
     influence_conversation: false
-- state_2:
+- state_selfefficacy:
     influence_conversation: false
-- state_3:
-    influence_conversation: false
-- state_4:
-    influence_conversation: false
-- state_5:
-    influence_conversation: false
-- state_6:
-    influence_conversation: false
-- state_7:
-    influence_conversation: false
-- state_8:
-    influence_conversation: false
-- state_9:
-    influence_conversation: false
-- state_busy:
+- state_humansupport:
     influence_conversation: false
 - state_energy:
     influence_conversation: false
@@ -142,76 +128,27 @@ slots:
     - type: custom
         
   ### states
-  state_1:
+  state_importance:
     type: text
     initial_value: ''
     influence_conversation: false
     mappings:
     - type: from_entity
-      entity: state_1
-  state_2:
+      entity: state_importance
+  state_selfefficacy:
     type: text
     initial_value: ''
     influence_conversation: false
     mappings:
     - type: from_entity
-      entity: state_2
-  state_3:
+      entity: state_selfefficacy
+  state_humansupport:
     type: text
     initial_value: ''
     influence_conversation: false
     mappings:
     - type: from_entity
-      entity: state_3
-  state_4:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_4
-  state_5:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_5
-  state_6:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_6
-  state_7:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_7
-  state_8:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_8
-  state_9:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_9
-  state_busy:
-    type: text
-    initial_value: ''
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: state_busy
+      entity: state_humansupport
   state_energy:
     type: text
     initial_value: ''
@@ -965,520 +902,124 @@ responses:
       - type: slot
         name: session_num
         value: "1"
-    text: "It's 11 questions overall so I can get a good grasp of where you stand."
+    text: "It's 4 questions overall so I can get a good grasp of where you stand."
   - condition:
       - type: slot
         name: session_num
         value: "2"
-    text: "The 11 questions I have for you will give me a good sense of where you stand."
+    text: "The 4 questions I have for you will give me a good sense of where you stand."
   - condition:
       - type: slot
         name: session_num
         value: "3"
-    text: "These 11 questions will give me a comprehensive view of where you are."
+    text: "These 4 questions will give me a comprehensive view of where you are."
   - condition:
       - type: slot
         name: session_num
         value: "4"
-    text: "There are 11 questions in total, which will help me understand where you're at."
+    text: "There are 4 questions in total, which will help me understand where you're at."
   - condition:
       - type: slot
         name: session_num
         value: "5"
-    text: "By answering these 11 questions, you help me assess where you're at."
+    text: "By answering these 4 questions, you help me assess where you're at."
     
-  - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
-  
-  utter_state_question_intro_3:
-  - text: "Please rate how you think the following 9 factors affect quitting smoking."
-  utter_state_question_intro_4:
-  - text: "Answer on a scale from -10 to 10, where -10 indicates that quitting smoking is made a lot harder and 10 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
-  utter_state_question_1:
+  - text: "I've prepared 4 questions that will help me get a clear understanding of your position."
+  utter_state_question_importance:
   - buttons:
-    - payload: /confirm_state_1{"state_1":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_1{"state_1":"-9"}
-      title: "-9"
-    - payload: /confirm_state_1{"state_1":"-8"}
-      title: "-8"
-    - payload: /confirm_state_1{"state_1":"-7"}
-      title: "-7"
-    - payload: /confirm_state_1{"state_1":"-6"}
-      title: "-6"
-    - payload: /confirm_state_1{"state_1":"-5"}
-      title: "-5"
-    - payload: /confirm_state_1{"state_1":"-4"}
-      title: "-4"
-    - payload: /confirm_state_1{"state_1":"-3"}
-      title: "-3"
-    - payload: /confirm_state_1{"state_1":"-2"}
-      title: "-2"
-    - payload: /confirm_state_1{"state_1":"-1"}
-      title: "-1"
-    - payload: /confirm_state_1{"state_1":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_1{"state_1":"1"}
+    - payload: /confirm_state_importance{"state_importance":"0"}
+      title: "0 (not at all important)"
+    - payload: /confirm_state_importance{"state_importance":"1"}
       title: "1"
-    - payload: /confirm_state_1{"state_1":"2"}
+    - payload: /confirm_state_importance{"state_importance":"2"}
       title: "2"
-    - payload: /confirm_state_1{"state_1":"3"}
+    - payload: /confirm_state_importance{"state_importance":"3"}
       title: "3"
-    - payload: /confirm_state_1{"state_1":"4"}
+    - payload: /confirm_state_importance{"state_importance":"4"}
       title: "4"
-    - payload: /confirm_state_1{"state_1":"5"}
+    - payload: /confirm_state_importance{"state_importance":"5"}
       title: "5"
-    - payload: /confirm_state_1{"state_1":"6"}
+    - payload: /confirm_state_importance{"state_importance":"6"}
       title: "6"
-    - payload: /confirm_state_1{"state_1":"7"}
+    - payload: /confirm_state_importance{"state_importance":"7"}
       title: "7"
-    - payload: /confirm_state_1{"state_1":"8"}
+    - payload: /confirm_state_importance{"state_importance":"8"}
       title: "8"
-    - payload: /confirm_state_1{"state_1":"9"}
+    - payload: /confirm_state_importance{"state_importance":"9"}
       title: "9"
-    - payload: /confirm_state_1{"state_1":"10"}
-      title: "10 (make it a lot easier)"
-    text: "1) Self-confidence and motivation (e.g., right mindset, 'Yes, I can do it'-attitude, building motivation)."
-  utter_state_question_2:
+    - payload: /confirm_state_importance{"state_importance":"10"}
+      title: "10 (desperately important)"
+    text: "1) How important is it to you to prepare for quitting smoking now?"
+  utter_state_question_selfefficacy:
   - buttons:
-    - payload: /confirm_state_2{"state_2":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_2{"state_2":"-9"}
-      title: "-9"
-    - payload: /confirm_state_2{"state_2":"-8"}
-      title: "-8"
-    - payload: /confirm_state_2{"state_2":"-7"}
-      title: "-7"
-    - payload: /confirm_state_2{"state_2":"-6"}
-      title: "-6"
-    - payload: /confirm_state_2{"state_2":"-5"}
-      title: "-5"
-    - payload: /confirm_state_2{"state_2":"-4"}
-      title: "-4"
-    - payload: /confirm_state_2{"state_2":"-3"}
-      title: "-3"
-    - payload: /confirm_state_2{"state_2":"-2"}
-      title: "-2"
-    - payload: /confirm_state_2{"state_2":"-1"}
-      title: "-1"
-    - payload: /confirm_state_2{"state_2":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_2{"state_2":"1"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"0"}
+      title: "0 (not at all confident)"
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"1"}
       title: "1"
-    - payload: /confirm_state_2{"state_2":"2"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"2"}
       title: "2"
-    - payload: /confirm_state_2{"state_2":"3"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"3"}
       title: "3"
-    - payload: /confirm_state_2{"state_2":"4"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"4"}
       title: "4"
-    - payload: /confirm_state_2{"state_2":"5"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"5"}
       title: "5"
-    - payload: /confirm_state_2{"state_2":"6"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"6"}
       title: "6"
-    - payload: /confirm_state_2{"state_2":"7"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"7"}
       title: "7"
-    - payload: /confirm_state_2{"state_2":"8"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"8"}
       title: "8"
-    - payload: /confirm_state_2{"state_2":"9"}
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"9"}
       title: "9"
-    - payload: /confirm_state_2{"state_2":"10"}
-      title: "10 (make it a lot easier)"
-    text: "2) Practical preparation (e.g., learning how to relieve stress, knowing effects of nicotine, getting organized)."
-  utter_state_question_3:
+    - payload: /confirm_state_selfefficacy{"state_selfefficacy":"10"}
+      title: "10 (highly confident)"
+    text: "2) How confident are you that you can prepare for quitting smoking now?"
+  utter_state_question_humansupport:
   - buttons:
-    - payload: /confirm_state_3{"state_3":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_3{"state_3":"-9"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-10"}
+      title: "-10 (would very much disparage)"
+    - payload: /confirm_state_humansupport{"state_humansupport":"-9"}
       title: "-9"
-    - payload: /confirm_state_3{"state_3":"-8"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-8"}
       title: "-8"
-    - payload: /confirm_state_3{"state_3":"-7"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-7"}
       title: "-7"
-    - payload: /confirm_state_3{"state_3":"-6"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-6"}
       title: "-6"
-    - payload: /confirm_state_3{"state_3":"-5"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-5"}
       title: "-5"
-    - payload: /confirm_state_3{"state_3":"-4"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-4"}
       title: "-4"
-    - payload: /confirm_state_3{"state_3":"-3"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-3"}
       title: "-3"
-    - payload: /confirm_state_3{"state_3":"-2"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-2"}
       title: "-2"
-    - payload: /confirm_state_3{"state_3":"-1"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"-1"}
       title: "-1"
-    - payload: /confirm_state_3{"state_3":"0"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"0"}
       title: "0 (neutral)"
-    - payload: /confirm_state_3{"state_3":"1"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"1"}
       title: "1"
-    - payload: /confirm_state_3{"state_3":"2"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"2"}
       title: "2"
-    - payload: /confirm_state_3{"state_3":"3"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"3"}
       title: "3"
-    - payload: /confirm_state_3{"state_3":"4"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"4"}
       title: "4"
-    - payload: /confirm_state_3{"state_3":"5"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"5"}
       title: "5"
-    - payload: /confirm_state_3{"state_3":"6"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"6"}
       title: "6"
-    - payload: /confirm_state_3{"state_3":"7"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"7"}
       title: "7"
-    - payload: /confirm_state_3{"state_3":"8"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"8"}
       title: "8"
-    - payload: /confirm_state_3{"state_3":"9"}
+    - payload: /confirm_state_humansupport{"state_humansupport":"9"}
       title: "9"
-    - payload: /confirm_state_3{"state_3":"10"}
-      title: "10 (make it a lot easier)"
-    text: "3) Keeping a positive outlook and being aware of positive outcomes (e.g., positive thinking, positive mindset, knowing benefits of quitting)."
-  utter_state_question_4:
-  - buttons:
-    - payload: /confirm_state_4{"state_4":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_4{"state_4":"-9"}
-      title: "-9"
-    - payload: /confirm_state_4{"state_4":"-8"}
-      title: "-8"
-    - payload: /confirm_state_4{"state_4":"-7"}
-      title: "-7"
-    - payload: /confirm_state_4{"state_4":"-6"}
-      title: "-6"
-    - payload: /confirm_state_4{"state_4":"-5"}
-      title: "-5"
-    - payload: /confirm_state_4{"state_4":"-4"}
-      title: "-4"
-    - payload: /confirm_state_4{"state_4":"-3"}
-      title: "-3"
-    - payload: /confirm_state_4{"state_4":"-2"}
-      title: "-2"
-    - payload: /confirm_state_4{"state_4":"-1"}
-      title: "-1"
-    - payload: /confirm_state_4{"state_4":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_4{"state_4":"1"}
-      title: "1"
-    - payload: /confirm_state_4{"state_4":"2"}
-      title: "2"
-    - payload: /confirm_state_4{"state_4":"3"}
-      title: "3"
-    - payload: /confirm_state_4{"state_4":"4"}
-      title: "4"
-    - payload: /confirm_state_4{"state_4":"5"}
-      title: "5"
-    - payload: /confirm_state_4{"state_4":"6"}
-      title: "6"
-    - payload: /confirm_state_4{"state_4":"7"}
-      title: "7"
-    - payload: /confirm_state_4{"state_4":"8"}
-      title: "8"
-    - payload: /confirm_state_4{"state_4":"9"}
-      title: "9"
-    - payload: /confirm_state_4{"state_4":"10"}
-      title: "10 (make it a lot easier)"
-    text: "4) Thinking about 'negative' things (e.g., obstacles and how to deal with them, negative consequences of smoking, what life first looks like without smoking)."
-  utter_state_question_5:
-  - buttons:
-    - payload: /confirm_state_5{"state_5":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_5{"state_5":"-9"}
-      title: "-9"
-    - payload: /confirm_state_5{"state_5":"-8"}
-      title: "-8"
-    - payload: /confirm_state_5{"state_5":"-7"}
-      title: "-7"
-    - payload: /confirm_state_5{"state_5":"-6"}
-      title: "-6"
-    - payload: /confirm_state_5{"state_5":"-5"}
-      title: "-5"
-    - payload: /confirm_state_5{"state_5":"-4"}
-      title: "-4"
-    - payload: /confirm_state_5{"state_5":"-3"}
-      title: "-3"
-    - payload: /confirm_state_5{"state_5":"-2"}
-      title: "-2"
-    - payload: /confirm_state_5{"state_5":"-1"}
-      title: "-1"
-    - payload: /confirm_state_5{"state_5":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_5{"state_5":"1"}
-      title: "1"
-    - payload: /confirm_state_5{"state_5":"2"}
-      title: "2"
-    - payload: /confirm_state_5{"state_5":"3"}
-      title: "3"
-    - payload: /confirm_state_5{"state_5":"4"}
-      title: "4"
-    - payload: /confirm_state_5{"state_5":"5"}
-      title: "5"
-    - payload: /confirm_state_5{"state_5":"6"}
-      title: "6"
-    - payload: /confirm_state_5{"state_5":"7"}
-      title: "7"
-    - payload: /confirm_state_5{"state_5":"8"}
-      title: "8"
-    - payload: /confirm_state_5{"state_5":"9"}
-      title: "9"
-    - payload: /confirm_state_5{"state_5":"10"}
-      title: "10 (make it a lot easier)"
-    text: "5) Motivation (e.g., awareness of future non-smoker life, being motivated to quit, thinking of what you fear to happen when not quitting)."
-  utter_state_question_6:
-  - buttons:
-    - payload: /confirm_state_6{"state_6":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_6{"state_6":"-9"}
-      title: "-9"
-    - payload: /confirm_state_6{"state_6":"-8"}
-      title: "-8"
-    - payload: /confirm_state_6{"state_6":"-7"}
-      title: "-7"
-    - payload: /confirm_state_6{"state_6":"-6"}
-      title: "-6"
-    - payload: /confirm_state_6{"state_6":"-5"}
-      title: "-5"
-    - payload: /confirm_state_6{"state_6":"-4"}
-      title: "-4"
-    - payload: /confirm_state_6{"state_6":"-3"}
-      title: "-3"
-    - payload: /confirm_state_6{"state_6":"-2"}
-      title: "-2"
-    - payload: /confirm_state_6{"state_6":"-1"}
-      title: "-1"
-    - payload: /confirm_state_6{"state_6":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_6{"state_6":"1"}
-      title: "1"
-    - payload: /confirm_state_6{"state_6":"2"}
-      title: "2"
-    - payload: /confirm_state_6{"state_6":"3"}
-      title: "3"
-    - payload: /confirm_state_6{"state_6":"4"}
-      title: "4"
-    - payload: /confirm_state_6{"state_6":"5"}
-      title: "5"
-    - payload: /confirm_state_6{"state_6":"6"}
-      title: "6"
-    - payload: /confirm_state_6{"state_6":"7"}
-      title: "7"
-    - payload: /confirm_state_6{"state_6":"8"}
-      title: "8"
-    - payload: /confirm_state_6{"state_6":"9"}
-      title: "9"
-    - payload: /confirm_state_6{"state_6":"10"}
-      title: "10 (make it a lot easier)"
-    text: "6) Knowledge of how to manage cravings and the resultant negative feelings (e.g., improving one's mental health and well-being after quitting)."
-  utter_state_questions_more_than_halfway:
-    - condition:
-        - type: slot
-          name: session_num
-          value: "1"
-      text: "Nice, now we're more than halfway through the questions!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "2"
-      text: "Just 5 more questions to go!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "3"
-      text: "We're making great strides, we're done with more than half of the questions!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "4"
-      text: "We're over the halfway mark on the questions!"
-    - condition:
-        - type: slot
-          name: session_num
-          value: "5"
-      text: "Nice, now we've already tackled over half of the questions!"
-      
-    - text: "Nice, we're already more than halfway through the questions!"
-    - text: "Now we've passed the halfway point on the questions!"
-    - text: "6 questions down, just 5 more to go!"
-  utter_state_question_7:
-  - buttons:
-    - payload: /confirm_state_7{"state_7":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_7{"state_7":"-9"}
-      title: "-9"
-    - payload: /confirm_state_7{"state_7":"-8"}
-      title: "-8"
-    - payload: /confirm_state_7{"state_7":"-7"}
-      title: "-7"
-    - payload: /confirm_state_7{"state_7":"-6"}
-      title: "-6"
-    - payload: /confirm_state_7{"state_7":"-5"}
-      title: "-5"
-    - payload: /confirm_state_7{"state_7":"-4"}
-      title: "-4"
-    - payload: /confirm_state_7{"state_7":"-3"}
-      title: "-3"
-    - payload: /confirm_state_7{"state_7":"-2"}
-      title: "-2"
-    - payload: /confirm_state_7{"state_7":"-1"}
-      title: "-1"
-    - payload: /confirm_state_7{"state_7":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_7{"state_7":"1"}
-      title: "1"
-    - payload: /confirm_state_7{"state_7":"2"}
-      title: "2"
-    - payload: /confirm_state_7{"state_7":"3"}
-      title: "3"
-    - payload: /confirm_state_7{"state_7":"4"}
-      title: "4"
-    - payload: /confirm_state_7{"state_7":"5"}
-      title: "5"
-    - payload: /confirm_state_7{"state_7":"6"}
-      title: "6"
-    - payload: /confirm_state_7{"state_7":"7"}
-      title: "7"
-    - payload: /confirm_state_7{"state_7":"8"}
-      title: "8"
-    - payload: /confirm_state_7{"state_7":"9"}
-      title: "9"
-    - payload: /confirm_state_7{"state_7":"10"}
-      title: "10 (make it a lot easier)"
-    text: "7) Knowledge of how physical activity helps to quit smoking."
-  utter_state_question_8:
-  - buttons:
-    - payload: /confirm_state_8{"state_8":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_8{"state_8":"-9"}
-      title: "-9"
-    - payload: /confirm_state_8{"state_8":"-8"}
-      title: "-8"
-    - payload: /confirm_state_8{"state_8":"-7"}
-      title: "-7"
-    - payload: /confirm_state_8{"state_8":"-6"}
-      title: "-6"
-    - payload: /confirm_state_8{"state_8":"-5"}
-      title: "-5"
-    - payload: /confirm_state_8{"state_8":"-4"}
-      title: "-4"
-    - payload: /confirm_state_8{"state_8":"-3"}
-      title: "-3"
-    - payload: /confirm_state_8{"state_8":"-2"}
-      title: "-2"
-    - payload: /confirm_state_8{"state_8":"-1"}
-      title: "-1"
-    - payload: /confirm_state_8{"state_8":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_8{"state_8":"1"}
-      title: "1"
-    - payload: /confirm_state_8{"state_8":"2"}
-      title: "2"
-    - payload: /confirm_state_8{"state_8":"3"}
-      title: "3"
-    - payload: /confirm_state_8{"state_8":"4"}
-      title: "4"
-    - payload: /confirm_state_8{"state_8":"5"}
-      title: "5"
-    - payload: /confirm_state_8{"state_8":"6"}
-      title: "6"
-    - payload: /confirm_state_8{"state_8":"7"}
-      title: "7"
-    - payload: /confirm_state_8{"state_8":"8"}
-      title: "8"
-    - payload: /confirm_state_8{"state_8":"9"}
-      title: "9"
-    - payload: /confirm_state_8{"state_8":"10"}
-      title: "10 (make it a lot easier)"
-    text: "8) Thinking of possible obstacles (e.g., recognizing possible obstacles, envisioning ideas to overcome them, planning how to deal with them)."
-  utter_state_question_9:
-  - buttons:
-    - payload: /confirm_state_9{"state_9":"-10"}
-      title: "-10 (make it a lot harder)"
-    - payload: /confirm_state_9{"state_9":"-9"}
-      title: "-9"
-    - payload: /confirm_state_9{"state_9":"-8"}
-      title: "-8"
-    - payload: /confirm_state_9{"state_9":"-7"}
-      title: "-7"
-    - payload: /confirm_state_9{"state_9":"-6"}
-      title: "-6"
-    - payload: /confirm_state_9{"state_9":"-5"}
-      title: "-5"
-    - payload: /confirm_state_9{"state_9":"-4"}
-      title: "-4"
-    - payload: /confirm_state_9{"state_9":"-3"}
-      title: "-3"
-    - payload: /confirm_state_9{"state_9":"-2"}
-      title: "-2"
-    - payload: /confirm_state_9{"state_9":"-1"}
-      title: "-1"
-    - payload: /confirm_state_9{"state_9":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_9{"state_9":"1"}
-      title: "1"
-    - payload: /confirm_state_9{"state_9":"2"}
-      title: "2"
-    - payload: /confirm_state_9{"state_9":"3"}
-      title: "3"
-    - payload: /confirm_state_9{"state_9":"4"}
-      title: "4"
-    - payload: /confirm_state_9{"state_9":"5"}
-      title: "5"
-    - payload: /confirm_state_9{"state_9":"6"}
-      title: "6"
-    - payload: /confirm_state_9{"state_9":"7"}
-      title: "7"
-    - payload: /confirm_state_9{"state_9":"8"}
-      title: "8"
-    - payload: /confirm_state_9{"state_9":"9"}
-      title: "9"
-    - payload: /confirm_state_9{"state_9":"10"}
-      title: "10 (make it a lot easier)"
-    text: "9) Knowing how to maintain one's mental and physical well-being (e.g., knowing how to get good sleep and stay inspired)."
-  utter_intro_busy_state_question:
-  - condition:
-      - type: slot
-        name: session_num
-        value: "1"
-    text: "Just 2 more questions to go. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
-  - condition:
-      - type: slot
-        name: session_num
-        value: "2"
-    text: "We're almost done, just 2 questions left. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
-  - condition:
-      - type: slot
-        name: session_num
-        value: "3"
-    text: "The end is in sight, only 2 questions left to answer. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
-  - condition:
-      - type: slot
-        name: session_num
-        value: "4"
-    text: "Just 2 more questions and we're finished. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
-  - condition:
-      - type: slot
-        name: session_num
-        value: "5"
-    text: "Only 2 questions left! Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
-  utter_state_question_busy:
-  - buttons:
-    - payload: /confirm_state_busy{"state_busy":"-5"}
-      title: "-5 (much less)"
-    - payload: /confirm_state_busy{"state_busy":"-4"}
-      title: "-4"
-    - payload: /confirm_state_busy{"state_busy":"-3"}
-      title: "-3"
-    - payload: /confirm_state_busy{"state_busy":"-2"}
-      title: "-2"
-    - payload: /confirm_state_busy{"state_busy":"-1"}
-      title: "-1"
-    - payload: /confirm_state_busy{"state_busy":"0"}
-      title: "0 (neutral)"
-    - payload: /confirm_state_busy{"state_busy":"1"}
-      title: "1"
-    - payload: /confirm_state_busy{"state_busy":"2"}
-      title: "2"
-    - payload: /confirm_state_busy{"state_busy":"3"}
-      title: "3"
-    - payload: /confirm_state_busy{"state_busy":"4"}
-      title: "4"
-    - payload: /confirm_state_busy{"state_busy":"5"}
-      title: "5 (much more)"
-    text: "10) How busy are you compared to your normal situation?"
+    - payload: /confirm_state_humansupport{"state_humansupport":"10"}
+      title: "10 (would very much appreciate)"
+    text: "3) How would you view receiving a support message from a human coach after this session?"
   utter_intro_last_state_question:
   - condition:
       - type: slot
@@ -1529,7 +1070,7 @@ responses:
       title: "9"
     - payload: /confirm_state_energy{"state_energy":"10"}
       title: "10 (extremely much)"
-    text: "11) How much energy do you have?"
+    text: "4) How much energy do you have?"
   utter_thank_state_question_answering:
     - condition:
         - type: slot
@@ -1545,7 +1086,7 @@ responses:
         - type: slot
           name: session_num
           value: "3"
-      text: "And that concludes our set of 11 questions. Thank you for your answers!"
+      text: "And that concludes our set of 4 questions. Thank you for your answers!"
     - condition:
         - type: slot
           name: session_num
@@ -1555,13 +1096,13 @@ responses:
         - type: slot
           name: session_num
           value: "5"
-      text: "And with that, we have finished the 11 questions. Thanks for answering all of them."
+      text: "And with that, we have finished the 4 questions. Thanks for answering all of them."
       
     - text: "Awesome, I really appreciate you answering these questions!"
     - text: "Thank you, you rock for helping me with these questions!"
     - text: "Fantastic, thank you for hanging in there! I know those were quite a few questions."
-    - text: "That brings us to the end of the 11 questions. Thank you for taking the time to answer them all"
-    - text: "We've reached the end of the 11 questions. Thanks for helping me by answering them all."
+    - text: "That brings us to the end of the 4 questions. Thank you for taking the time to answer them all"
+    - text: "We've reached the end of the 4 questions. Thanks for helping me by answering them all."
   
   ### Propose activity
   utter_transition_new_activity:
