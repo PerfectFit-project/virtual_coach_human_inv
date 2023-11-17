@@ -609,17 +609,13 @@ class ActionChooseHumanSupport(Action):
         # do not get an RL sample starting in session 5. So human support there
         # would be wasted.
         human_support_after_session = False
-        logging.info("human support: " + str(human_support_after_session))
         if session_num <= 4:
             human_support_after_session = np.random.choice([False, True], size = 1, 
                                                            p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
-            
-        logging.info("human support: " + str(human_support_after_session))
         
-        human_support_after_session = bool(human_support_after_session)
-        
-        logging.info("human support: " + str(human_support_after_session))
+        human_support_after_session = True
 
+        # Since importing numpy, we for some reason need the conversion to bool
         return [SlotSet("human_support_after_session", bool(human_support_after_session))]
 
 
