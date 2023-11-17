@@ -612,8 +612,6 @@ class ActionChooseHumanSupport(Action):
         if session_num <= 4:
             human_support_after_session = np.random.choice([False, True], size = 1, 
                                                            p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
-        
-        human_support_after_session = True
 
         # Since importing numpy, we for some reason need the conversion to bool
         return [SlotSet("human_support_after_session", bool(human_support_after_session))]
