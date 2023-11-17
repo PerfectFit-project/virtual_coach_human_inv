@@ -566,10 +566,30 @@ class ActionChooseActivity(Action):
         # Adapt formulations to vaping if needed
         if smoker == "0":
             activity_new_verb = activity_new_verb.replace("smok", "vap")
+
             activity_new_formulation_session = activity_new_formulation_session.replace("smok", "vap")
             activity_new_formulation_session = activity_new_formulation_session.replace("Smok", "Vap")
+            # from smoking tracking activity
+            activity_new_formulation_session = activity_new_formulation_session.replace("number of cigarettes", "number of puffs")
+            activity_new_formulation_session = activity_new_formulation_session.replace("2 cigarettes", "30 puffs")
+            activity_new_formulation_session = activity_new_formulation_session.replace("5 cigarettes", "75 puffs")
+            # from fighting match activity
+            activity_new_formulation_session = activity_new_formulation_session.replace("cigarette as two", "vape as two")
+            # From previous smoking successes activity
+            activity_new_formulation_session = activity_new_formulation_session.replace("Maybe you once only had one instead of two cigarettes after dinner", 
+                                                                                        "Maybe you once only had 10 instead of 20 puffs after dinner")
+
             activity_new_formulation_email = activity_new_formulation_email.replace("smok", "vap")
             activity_new_formulation_email = activity_new_formulation_email.replace("Smok", "Vap")
+            # from smoking tracking activity
+            activity_new_formulation_email = activity_new_formulation_email.replace("number of cigarettes", "number of puffs")
+            activity_new_formulation_email = activity_new_formulation_email.replace("2 cigarettes", "30 puffs")
+            activity_new_formulation_email = activity_new_formulation_email.replace("5 cigarettes", "75 puffs")
+            # from fighting match activity
+            activity_new_formulation_email = activity_new_formulation_email.replace("cigarette as two", "vape as two")
+            # From previous smoking successes activity
+            activity_new_formulation_email = activity_new_formulation_email.replace("Maybe you once only had one instead of two cigarettes after dinner", 
+                                                                                    "Maybe you once only had 10 instead of 20 puffs after dinner")
 
         return [SlotSet("activity_formulation_new_session", activity_new_formulation_session), 
                 SlotSet("activity_formulation_new_email", activity_new_formulation_email),
