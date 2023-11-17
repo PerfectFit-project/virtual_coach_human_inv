@@ -615,8 +615,12 @@ class ActionChooseHumanSupport(Action):
                                                            p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
             
         logging.info("human support: " + str(human_support_after_session))
+        
+        human_support_after_session = bool(human_support_after_session)
+        
+        logging.info("human support: " + str(human_support_after_session))
 
-        return [SlotSet("human_support_after_session", human_support_after_session)]
+        return [SlotSet("human_support_after_session", bool(human_support_after_session))]
 
 
 # Send reminder email with activity
