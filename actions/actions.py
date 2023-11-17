@@ -8,7 +8,9 @@
 from datetime import datetime
 from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
                          DATABASE_PORT, DATABASE_USER, df_act,
-                         NUM_ACTIVITIES)
+                         MIN_CHAR_EXPERIENCE,
+                         NUM_ACTIVITIES,
+                         PROB_HUMAN_SUPPORT)
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from rasa_sdk import Action, FormValidationAction, Tracker
@@ -20,6 +22,7 @@ from typing import Any, Dict, List, Optional, Text
 
 import logging
 import mysql.connector
+import numpy as np
 import random
 import smtplib, ssl
 
@@ -34,7 +37,7 @@ class ActionSessionStart(Action):
 
         session_num = tracker.get_slot("session_num")
 
-        # the session should begin with a `session_started` event
+        # The session should begin with a `session_started` event
         # in case of a timed-out session, we also need this so that rasa does not
         # continue with uncompleted forms.
         events = [SessionStarted()]
@@ -280,8 +283,7 @@ class ActionLoadSessionNotFirst(Action):
                         activity_verb_prev = df_act.iloc[act_index]["Verb"]
                         # Adapt verb formulation to vaping if needed
                         if smoker == "0":
-                            activity_verb_prev = activity_verb_prev.replace("smoking", "vaping")
-                            activity_verb_prev = activity_verb_prev.replace("smoke", "vape")
+                            activity_verb_prev = activity_verb_prev.replace("smok", "vap")
      
 
         except mysql.connector.Error as error:
@@ -416,9 +418,14 @@ class ActionSaveSession(Action):
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
 
-            slots_to_save = ["mood", "state_importance", "state_selfefficacy", 
-                             "state_humansupport", "state_energy",
-                             "activity_new_index"]
+            slots_to_save = ["smoker", 
+                             "mood", 
+                             "state_importance", 
+                             "state_selfefficacy", 
+                             "state_humansupport", 
+                             "state_energy",
+                             "activity_new_index",
+                             "human_support_after_session"]
             for slot in slots_to_save:
 
                 save_sessiondata_entry(cur, conn, prolific_id, session_num,
@@ -507,7 +514,7 @@ class ActionChooseActivity(Action):
     async def run(self, dispatcher, tracker, domain):
 
         prolific_id = tracker.current_state()['sender_id']
-        smoker = tracker.current_state()['smoker']
+        smoker = tracker.get_slot("smoker")
 
         # get indices of previously assigned activities
         # this returns a list of strings
@@ -558,17 +565,36 @@ class ActionChooseActivity(Action):
         
         # Adapt formulations to vaping if needed
         if smoker == "0":
-            activity_new_verb = activity_new_verb.replace("smoking", "vaping")
-            activity_new_verb = activity_new_verb.replace("smoke", "vape")
-            activity_new_formulation_session = activity_new_formulation_session.replace("smoking", "vaping")
-            activity_new_formulation_session = activity_new_formulation_session.replace("smoke", "vape")
-            activity_new_formulation_email = activity_new_formulation_email.replace("smoking", "vaping")
-            activity_new_formulation_email = activity_new_formulation_email.replace("smoke", "vape")
+            activity_new_verb = activity_new_verb.replace("smok", "vap")
+            activity_new_formulation_session = activity_new_formulation_session.replace("smok", "vap")
+            activity_new_formulation_session = activity_new_formulation_session.replace("Smok", "Vap")
+            activity_new_formulation_email = activity_new_formulation_email.replace("smok", "vap")
+            activity_new_formulation_email = activity_new_formulation_email.replace("Smok", "Vap")
 
         return [SlotSet("activity_formulation_new_session", activity_new_formulation_session), 
                 SlotSet("activity_formulation_new_email", activity_new_formulation_email),
                 SlotSet("activity_new_index", str(new_act_index)),
                 SlotSet("activity_new_verb", activity_new_verb)]
+    
+
+class ActionChooseHumanSupport(Action):
+    def name(self):
+        return "action_choose_human_support"
+
+    async def run(self, dispatcher, tracker, domain):
+        
+        session_num = tracker.get_slot('session_num')  # this is a string
+        
+        # Only potentially provide human support after sessions 1-4 since we
+        # do not get an RL sample starting in session 5. So human support there
+        # would be wasted.
+        if session_num <= 4:
+            human_support_after_session = np.random.choice([False, True], size = 1, 
+                                                           p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])
+        else:
+            human_support_after_session = False
+
+        return [SlotSet("human_support_after_session", human_support_after_session)]
 
 
 # Send reminder email with activity
@@ -580,7 +606,7 @@ class ActionSendEmail(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # get user ID
+        # Get user ID
         prolific_id = tracker.current_state()['sender_id']
 
         activity_formulation_email = tracker.get_slot('activity_formulation_new_email')
@@ -617,19 +643,19 @@ class ActionSendEmail(Action):
             with open(template_file_name, 'r', encoding='utf-8') as template_file:
                 message_template = Template(template_file.read())
 
-            # add in the actual info to the message template
+            # Add the actual info to the message template
             message_text = message_template.substitute(PERSON_NAME ="Study Participant",
                                                        ACTIVITY= activity_formulation_email)
 
-            # set up the parameters of the message
+            # Set up the parameters of the message
             msg['From'] = email
             msg['To']=  user_email
             msg['Subject'] = "Activity Reminder - Peparing for Quitting Smoking"
 
-            # add in the message body
+            # Add the message body
             msg.attach(MIMEText(message_text, 'plain'))
 
-            # send the message via the server set up earlier.
+            # Send the message via the server set up earlier.
             server.send_message(msg)
 
             del msg
@@ -672,8 +698,8 @@ class ValidateActivityExperienceForm(FormValidationAction):
         if last_utterance != 'utter_ask_activity_experience_slot':
             return {"activity_experience_slot": None}
 
-        # people should either type "none" or say a bit more
-        if not (len(value) >= 10 or "none" in value.lower()):
+        # People should type a certain minimum number of characters
+        if len(value) < MIN_CHAR_EXPERIENCE:
             dispatcher.utter_message(response="utter_provide_more_detail")
             return {"activity_experience_slot": None}
 
@@ -694,7 +720,7 @@ class ValidateActivityExperienceModForm(FormValidationAction):
         if last_utterance != 'utter_ask_activity_experience_mod_slot':
             return {"activity_experience_mod_slot": None}
 
-        # people should either type "none" or say a bit more
+        # People should either type "none" or say a bit more
         if not (len(value) >= 5 or "none" in value.lower()):
             dispatcher.utter_message(response="utter_provide_more_detail")
             return {"activity_experience_mod_slot": None}

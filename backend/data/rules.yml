@@ -219,13 +219,29 @@ rules:
   - action: utter_activity
   - action: utter_activity_read
   
-- rule: read activity
+# no human support
+- rule: read activity, no human support
   steps:
   - intent: confirm_activity_read
   - action: utter_cool
   - action: utter_advise_activity
+  - action: action_choose_human_support
+  - slot_was_set: 
+    - human_support_after_session: false
   - action: utter_email_reminder
   - action: utter_remind_next_part
+  
+# with human support
+- rule: read activity, no human support
+  steps:
+  - intent: confirm_activity_read
+  - action: utter_cool
+  - action: utter_advise_activity
+  - action: action_choose_human_support
+  - slot_was_set: 
+    - human_support_after_session: true
+  - action: utter_email_reminder
+  - action: utter_mention_human_support
   
 - rule: confirm next part and save states to db
   steps:

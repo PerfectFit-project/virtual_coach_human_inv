@@ -15,7 +15,7 @@ intents:
 ### Not-first sessions (2, 3, 4, 5)
 - confirm_intro_session_notfirst
 
-### Last session
+### Last session (5)
 - start_session_last
 - mood_curr_session_last
 
@@ -235,6 +235,13 @@ slots:
     type: text
     initial_value: ''
     influence_conversation: false
+    mappings:
+    - type: custom
+    
+  # Whether the user will get human support after the session
+  human_support_after_session:
+    type: bool
+    influence_conversation: true
     mappings:
     - type: custom
     
@@ -784,27 +791,13 @@ responses:
         value: "high"
     text: "Ah nicely done!"
   utter_ask_activity_experience_slot:
-  - condition:
-      - type: slot
-        name: effort_level
-        value: "high"
-    text: "How did you approach, do, or experience your assigned activity? Use the text field."
-  - condition:
-      - type: slot
-        name: effort_level
-        value: "medium"
-    text: "How did you approach, do, or experience your assigned activity? Use the text field."
-  - condition:
-      - type: slot
-        name: effort_level
-        value: "low"
-    text: "How did you approach, do, or experience your assigned activity? If you have no feedback on the activity, just type 'None' in the text field."
+  - text: "How did you approach, do, or experience your assigned activity? A human coach might read your response to write you a support message after this session."
   utter_repeat_activity_completion_answer:
     - condition:
         - type: slot
           name: session_num
           value: "2"
-      text: "This is what I got: {activity_experience_slot}\nWould you like to add or change anything?"
+      text: "This is what I got: '{activity_experience_slot}'\nWould you like to add or change anything?"
       buttons:
       - payload: /deny_activity_experience
         title: Yes
@@ -814,7 +807,7 @@ responses:
         - type: slot
           name: session_num
           value: "3"
-      text: "I got this: {activity_experience_slot}\nDo you want to add or modify anything?"
+      text: "I got this: '{activity_experience_slot}'\nDo you want to add or modify anything?"
       buttons:
       - payload: /deny_activity_experience
         title: Yes
@@ -824,7 +817,7 @@ responses:
         - type: slot
           name: session_num
           value: "4"
-      text: "I received this: {activity_experience_slot}\nIs there something that you'd like to add or change?"
+      text: "I received this: '{activity_experience_slot}'\nIs there something that you'd like to add or change?"
       buttons:
       - payload: /deny_activity_experience
         title: Yes
@@ -834,14 +827,14 @@ responses:
         - type: slot
           name: session_num
           value: "5"
-      text: "I got this from you: {activity_experience_slot}\nIs there anything that I should add or modify about your response?"
+      text: "I got this from you: '{activity_experience_slot}'\nIs there anything that I should add or modify about your response?"
       buttons:
       - payload: /deny_activity_experience
         title: Yes
       - payload: /confirm_activity_experience
         title: No
         
-    - text: "This is the response I got: {activity_experience_slot}\nDo you want to add or change anything?"
+    - text: "This is the response I got: '{activity_experience_slot}'\nDo you want to add or change anything?"
       buttons:
       - payload: /confirm_activity_experience
         title: Yes
@@ -1545,7 +1538,11 @@ responses:
       text: "That concludes our session. I'll send you a message shortly with your activity on Prolific."
     
     - text: "That's all for this session. I'll be sending you a message with your activity on Prolific right after this session."
-  
+  utter_mention_human_support:
+  - text: "And before the next session, you will also receive a support message from a human coach on Prolific."
+    buttons:
+    - payload: /confirm_next_part
+      title: "Okay"
   utter_remind_next_part:
     - condition:
         - type: slot
@@ -1610,27 +1607,27 @@ responses:
         - type: slot
           name: session_num
           value: "1" 
-      text: "Cool! Here is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=CBQIYE7E."
+      text: "Cool! Here is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=CBQIYE7E"
     - condition:
         - type: slot
           name: session_num
           value: "2" 
-      text: "Cool! And here is your completion link: https://app.prolific.co/submissions/complete?cc=CYGVKBY7."
+      text: "Cool! And here is your completion link: https://app.prolific.co/submissions/complete?cc=CYGVKBY7"
     - condition:
         - type: slot
           name: session_num
           value: "3" 
-      text: "Perfect! And this is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=C17RURNZ."
+      text: "Perfect! And this is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=C17RURNZ"
     - condition:
         - type: slot
           name: session_num
           value: "4" 
-      text: "Nice! And here you have your completion link: https://app.prolific.co/submissions/complete?cc=C10X5POS."
+      text: "Nice! And here you have your completion link: https://app.prolific.co/submissions/complete?cc=C10X5POS"
     - condition:
         - type: slot
           name: session_num
           value: "5" 
-      text: "Perfect! Here is your completion link for this session: https://app.prolific.co/submissions/complete?cc=CKJUD15J."
+      text: "Perfect! Here is your completion link for this session: https://app.prolific.co/submissions/complete?cc=CKJUD15J"
      
     - text: "Alright!"
     
@@ -2377,6 +2374,8 @@ forms:
 
 actions:
 - action_choose_activity
+
+- action_choose_human_support
 
 - action_load_session_first
 - action_load_session_not_first

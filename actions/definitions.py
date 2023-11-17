@@ -21,3 +21,11 @@ df_act["Prerequisite"] = [list(df_act.iloc[i]["Prerequisite"].split("|")) if not
 
 # Number of activities
 NUM_ACTIVITIES = len(df_act)
+
+
+# Mininum number of characters for activity experience response
+MIN_CHAR_EXPERIENCE = 20
+
+
+# Probability of receiving human support
+PROB_HUMAN_SUPPORT = 0.2
