@@ -603,7 +603,7 @@ class ActionChooseHumanSupport(Action):
 
     async def run(self, dispatcher, tracker, domain):
         
-        session_num = tracker.get_slot('session_num')  # this is a string
+        session_num = float(tracker.get_slot('session_num'))  # this is a string originally
         
         # Only potentially provide human support after sessions 1-4 since we
         # do not get an RL sample starting in session 5. So human support there
