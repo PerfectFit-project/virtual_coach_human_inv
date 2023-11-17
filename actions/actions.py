@@ -610,7 +610,7 @@ class ActionChooseHumanSupport(Action):
         # would be wasted.
         if session_num <= 4:
             human_support_after_session = np.random.choice([0, 1], size = 1, 
-                                                           p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])
+                                                           p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
         else:
             human_support_after_session = False
 
