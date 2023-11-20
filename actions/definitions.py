@@ -24,7 +24,13 @@ NUM_ACTIVITIES = len(df_act)
 
 
 # Mininum number of characters for activity experience response
+# and the possible modification
 MIN_CHAR_EXPERIENCE = 20
+MIN_CHAR_EXPERIENCE_MOD = 5
+
+
+# Minimum number of characters for introduction to human coach
+MIN_CHAR_HUMAN_COACH_INTRO = 70
 
 
 # Probability of receiving human support

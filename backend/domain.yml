@@ -129,7 +129,16 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-        
+  # Introduction to human coach written in first session
+  human_coach_introduction_slot:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+        - active_loop: human_coach_introduction_form
+    
   ### States
   state_importance:
     type: text
@@ -329,8 +338,12 @@ responses:
       buttons:
       - payload: /confirm_purpose
         title: "I'm ready"
+  utter_explain_human_feedback:
+  - text: "Okay! Besides our conversations, you may sometimes also receive a feedback message from a human coach on Prolific. This human coach has a background in Psychology and has learned how to support people in changing their behavior."
+  utter_ask_human_coach_introduction_slot:
+  - text: "To help this human coach give you suitable feedback on preparing for quitting smoking, how would you introduce yourself to them? Please write 2-3 sentences."
   utter_prompt_usage:
-  - text: "Okay! Before we start, let me explain how you can communicate with me."
+  - text: "Thanks! Before we begin with our first session, let me explain how you can communicate with me."
   utter_explain_usage:
   - buttons:
     - payload: /confirm_usage
@@ -2337,6 +2350,10 @@ responses:
   - text: "I'd like to understand better, can you give me more details on this?"
   - text: "I'm not quite following, could you provide more details?"
   
+  utter_provide_more_detail_human_coach_intro:
+  - text: "Hmm, to make the feedback from the human coach more effective, please elaborate a bit."
+  - text: "It would be great if you could write a bit more. This helps to make the feedback more effective."
+  
   utter_multiple_open_chats:
   - text: "IT SEEMS LIKE THE CHAT IS OPEN MULTIPLE TIMES."
   
@@ -2364,6 +2381,9 @@ forms:
   user_name_form:
     required_slots:
         - user_name_slot
+  human_coach_introduction_form:
+    required_slots:
+        - human_coach_introduction_slot
   activity_experience_form:
     required_slots:
         - activity_experience_slot
@@ -2387,6 +2407,7 @@ actions:
 - validate_user_name_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
+- validate_human_coach_introduction_form
 
 - action_check_nameslot
 - action_default_fallback_end_dialog

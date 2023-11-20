@@ -9,6 +9,8 @@ from datetime import datetime
 from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
                          DATABASE_PORT, DATABASE_USER, df_act,
                          MIN_CHAR_EXPERIENCE,
+                         MIN_CHAR_EXPERIENCE_MOD,
+                         MIN_CHAR_HUMAN_COACH_INTRO,
                          NUM_ACTIVITIES,
                          PROB_HUMAN_SUPPORT)
 from email.mime.multipart import MIMEMultipart
@@ -741,8 +743,30 @@ class ValidateActivityExperienceModForm(FormValidationAction):
             return {"activity_experience_mod_slot": None}
 
         # People should either type "none" or say a bit more
-        if not (len(value) >= 5 or "none" in value.lower()):
+        if not (len(value) >= MIN_CHAR_EXPERIENCE_MOD or "none" in value.lower()):
             dispatcher.utter_message(response="utter_provide_more_detail")
             return {"activity_experience_mod_slot": None}
 
         return {"activity_experience_mod_slot": value}
+
+
+class ValidateHumanCoachIntroductionForm(FormValidationAction):
+    def name(self) -> Text:
+        return 'validate_human_coach_introduction_form'
+
+    def validate_human_coach_introduction_slot(
+            self, value: Text, dispatcher: CollectingDispatcher,
+            tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        # pylint: disable=unused-argument
+        """Validate human_coach_introduction_slot input."""
+        last_utterance = get_latest_bot_utterance(tracker.events)
+
+        if last_utterance != 'utter_ask_human_coach_introduction_slot':
+            return {"human_coach_introduction_slot": None}
+
+        # People should type a certain minimum number of characters
+        if len(value) < MIN_CHAR_HUMAN_COACH_INTRO:
+            dispatcher.utter_message(response="utter_provide_more_detail_human_coach_intro")
+            return {"human_coach_introduction_slot": None}
+
+        return {"human_coach_introduction_slot": value}

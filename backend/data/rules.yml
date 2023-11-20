@@ -52,12 +52,22 @@ rules:
   - action: utter_purpose_4
   - action: utter_purpose_5
   
-- rule: usage session 1
+- rule: intro human coach session 1
   steps:
   - intent: confirm_purpose
+  - action: utter_explain_human_feedback
+  - action: human_coach_introduction_form
+  - active_loop: human_coach_introduction_form
+  wait_for_user_input: false
+    
+- rule: usage session 1
+  condition:
+    - active_loop: human_coach_introduction_form
+  steps:
+  - active_loop: null
   - action: utter_prompt_usage
   - action: utter_explain_usage
-  
+
 - rule: intro session 1
   steps:
   - intent: confirm_usage
