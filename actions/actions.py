@@ -766,7 +766,7 @@ class ValidateHumanCoachIntroductionForm(FormValidationAction):
         """Validate human_coach_introduction_slot input."""
         last_utterance = get_latest_bot_utterance(tracker.events)
 
-        if last_utterance != 'utter_ask_human_coach_introduction_slot':
+        if last_utterance != 'utter_ask_human_coach_introduction_slot' :
             return {"human_coach_introduction_slot": None}
 
         # People should type a certain minimum number of characters

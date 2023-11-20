@@ -64,6 +64,7 @@ rules:
   condition:
     - active_loop: human_coach_introduction_form
   steps:
+  - action: human_coach_introduction_form
   - active_loop: null
   - action: utter_prompt_usage
   - action: utter_explain_usage
