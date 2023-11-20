@@ -428,6 +428,11 @@ class ActionSaveSession(Action):
                              "state_energy",
                              "activity_new_index",
                              "human_support_after_session"]
+
+            # Also need to save slot with introduction to human coach in session 1
+            if session_num == "1":
+                slots_to_save.append("human_coach_introduction_slot")
+
             for slot in slots_to_save:
 
                 save_sessiondata_entry(cur, conn, prolific_id, session_num,
