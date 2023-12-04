@@ -635,7 +635,6 @@ class ActionSendEmail(Action):
 
         # Get user ID
         prolific_id = tracker.current_state()['sender_id']
-        prolific_id = '5f970a74069a250711aaa695'
 
         activity_formulation_email = tracker.get_slot('activity_formulation_new_email')
         session_num = tracker.get_slot('session_num')  # this is a string
