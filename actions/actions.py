@@ -603,6 +603,49 @@ class ActionChooseActivity(Action):
                 SlotSet("activity_new_index", str(new_act_index)),
                 SlotSet("activity_new_verb", activity_new_verb)]
     
+    
+def get_previous_human_support_from_db():
+    """
+    Get the number of times we have chosen no human support vs. human support
+    in sessions 1-4.
+
+    Returns
+    -------
+    support_counts : list
+        number of times we have chosen no human support, number of times we have
+        chosen human support
+
+    """
+
+    try:
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(buffered=True)
+
+        # Get human support counts in sessions 1-4 from database
+        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s AND response_value IS NOT NULL AND session_num != %s")
+        cur.execute(query, ["human_support_after_session", "5"])
+        result = cur.fetchall()
+
+        support_values = [int(i[0]) for i in result if not i[0] == '']
+        # Possible values are just 0 and 1 (i.e., no support vs. support)
+        support_counts = [support_values.count(i) for i in range(0, 2)]
+
+    except mysql.connector.Error as error:
+        logging.info("Error in getting human support counts from db: " + str(error))
+
+    finally:
+        if conn.is_connected():
+            cur.close()
+            conn.close()
+   
+    return support_counts
+
 
 class ActionChooseHumanSupport(Action):
     def name(self):
@@ -617,8 +660,16 @@ class ActionChooseHumanSupport(Action):
         # would be wasted.
         human_support_after_session = False
         if session_num <= 4:
-            human_support_after_session = np.random.choice([False, True], size = 1, 
-                                                           p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
+            #human_support_after_session = np.random.choice([False, True], size = 1, 
+            #                                               p = [1-PROB_HUMAN_SUPPORT, PROB_HUMAN_SUPPORT])[0]
+
+            # Get support counts from db
+            support_counts = get_previous_human_support_from_db()
+            total_entries = sum(support_counts)
+            # If number of times we have given human support is less than the proportion we
+            # should have at this point, then we give human support
+            if support_counts[1] < total_entries * PROB_HUMAN_SUPPORT:
+                human_support_after_session = True
 
         # Since importing numpy, we for some reason need the conversion to bool
         return [SlotSet("human_support_after_session", bool(human_support_after_session))]
