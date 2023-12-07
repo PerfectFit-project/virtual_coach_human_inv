@@ -42,7 +42,7 @@ services:
       restart: always
       environment:
           POSTGRES_USER: root
-          POSTGRES_PASSWORD: "someotherpassword"
+          POSTGRES_PASSWORD: "someotherpassword4444##"
       volumes:
        - ./data:/var/lib/postgresql/data
       ports:
