@@ -41,8 +41,8 @@ services:
       image: postgres:latest
       restart: always
       environment:
-          POSTGRES_USER:root
-          POSTGRES_PASSWORD:someotherpassword
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: "someotherpassword"
       volumes:
        - ./data:/var/lib/postgresql/data
       ports:
