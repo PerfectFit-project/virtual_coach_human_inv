@@ -1,4 +1,7 @@
-Dear ${PERSON_NAME}, 
+This is your activity reminder message from your virtual coach Kai:
+
+
+"Dear ${PERSON_NAME}, 
 
 
 This is a message to remind you of your suggested preparation activity:
@@ -11,7 +14,7 @@ See you in your next session!
 
 Best regards,
 
-Your Virtual Coach Kai
+Your Virtual Coach Kai"
 
 
 

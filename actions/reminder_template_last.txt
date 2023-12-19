@@ -1,4 +1,7 @@
-Dear ${PERSON_NAME}, 
+This is your activity reminder message from your virtual coach Kai:
+
+
+"Dear ${PERSON_NAME}, 
 
 
 This is a message to remind you of your suggested preparation activity:
@@ -6,12 +9,12 @@ This is a message to remind you of your suggested preparation activity:
 ${ACTIVITY}
 
 
-I wish you all the best with quitting smoking!
+I wish you all the best with quitting!
 
 
 Best regards,
 
-Your Virtual Coach Kai
+Your Virtual Coach Kai"
 
 
 
