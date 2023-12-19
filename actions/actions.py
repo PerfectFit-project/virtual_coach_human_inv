@@ -727,7 +727,7 @@ class ActionSendEmail(Action):
             # Set up the parameters of the message
             msg['From'] = email
             msg['To']=  user_email
-            msg['Subject'] = "Activity Reminder - Peparing for Quitting Smoking"
+            msg['Subject'] = "Activity Reminder - Peparing for Quitting"
 
             # Add the message body
             msg.attach(MIMEText(message_text, 'plain'))
