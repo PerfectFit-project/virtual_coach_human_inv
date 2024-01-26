@@ -339,9 +339,29 @@ responses:
       - payload: /confirm_purpose
         title: "I'm ready"
   utter_explain_human_feedback:
-  - text: "Okay! Besides our conversations, you may sometimes also receive a feedback message from a human coach on Prolific. This human coach has a background in Psychology and has learned how to support people in changing their behavior."
+  - text: "Okay! Besides our conversations, you may sometimes also receive a feedback message from one of the human coaches Karina and Goda on Prolific. Karina and Goda have a background in Psychology and have learned how to support people in changing their behavior."
+  utter_human_coach_introduction_prep:
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "To help Karina and Goda give you suitable feedback on preparing for quitting smoking, how would you introduce yourself to them?"
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "To help Karina and Goda give you suitable feedback on preparing for quitting vaping, how would you introduce yourself to them?"
   utter_ask_human_coach_introduction_slot:
-  - text: "To help this human coach give you suitable feedback on preparing for quitting smoking, how would you introduce yourself to them? Please write 2-3 sentences."
+  - condition:
+      - type: slot
+        name: smoker
+        value: "1"
+    text: "For example, you might mention what you want to accomplish with quitting, what you have already learned about quitting smoking in the past, or what you think you might need help with when it comes to quitting smoking or becoming more physically active. Please write 2-3 sentences."
+  - condition:
+      - type: slot
+        name: smoker
+        value: "0"
+    text: "For example, you might mention what you want to accomplish with quitting, what you have already learned about quitting vaping in the past, or what you think you might need help with when it comes to quitting vaping or becoming more physically active. Please write 2-3 sentences."
   utter_prompt_usage:
   - text: "Thanks! Before we begin with our first session, let me explain how you can communicate with me."
   utter_explain_usage:
@@ -804,7 +824,7 @@ responses:
         value: "high"
     text: "Ah nicely done!"
   utter_ask_activity_experience_slot:
-  - text: "How did you approach, do, or experience your assigned activity? A human coach might read your response to write you a feedback message after this session."
+  - text: "How did you approach, do, or experience your assigned activity?\nOne of the human coaches Karina and Goda might read your response to write you a feedback message after this session. The more specific you are, the more specific can the human coaches make their feedback to you."
   utter_repeat_activity_completion_answer:
     - condition:
         - type: slot
@@ -1552,7 +1572,7 @@ responses:
     
     - text: "That's all for this session. I'll be sending you a message with your activity on Prolific right after this session."
   utter_mention_human_support:
-  - text: "And before the next session, you will also receive a feedback message from a human coach on Prolific.\nWe will ask you to confirm having read the message and may only invite you to the next session if you do confirm."
+  - text: "And before the next session, you will also receive a feedback message from one of the human coaches Karina and Goda on Prolific.\nWe will ask you to confirm having read the message and may only invite you to the next session if you do confirm."
     buttons:
     - payload: /confirm_next_part
       title: "Okay"
@@ -2351,7 +2371,7 @@ responses:
   - text: "I'm not quite following, could you provide more details?"
   
   utter_provide_more_detail_human_coach_intro:
-  - text: "Hmm, to make the feedback from the human coach more effective, please elaborate a bit."
+  - text: "Hmm, to make the feedback from the human coaches more effective, please elaborate a bit."
   - text: "It would be great if you could write a bit more. This helps to make the feedback more effective."
   
   utter_multiple_open_chats:

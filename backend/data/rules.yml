@@ -56,6 +56,7 @@ rules:
   steps:
   - intent: confirm_purpose
   - action: utter_explain_human_feedback
+  - action: utter_human_coach_introduction_prep
   - action: human_coach_introduction_form
   - active_loop: human_coach_introduction_form
   wait_for_user_input: false
