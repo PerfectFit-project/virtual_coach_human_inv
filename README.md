@@ -1,6 +1,6 @@
 # Virtual Coach Kai for Preparing for Quitting Smoking with Human Support
 
-This is the implementation of the virtual coach Kai that ...
+This is the implementation of the virtual coach Kai that proposes preparatory activities for quitting smoking or vaping (e.g., envisioning one's desired future self after quitting, creating a motivational slogan, learning how to get better sleep) in up to five sessions. Between the sessions, a human coach might send feedback messages to participants on the crowdsourcing platform Prolific.
 
 The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment), [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev), as well as [the implementation of the virtual coach Sam](https://github.com/PerfectFit-project/virtual_coach_rl_persuasion_algorithm).
 
