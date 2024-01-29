@@ -387,7 +387,7 @@ responses:
         value: "0"
     text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting vaping."
   utter_intro_session1_3:
-  - text: "Next, I'll recommend you a preparatory activity to do after this and before the next session, which you'll get invited to about 2 days from now."
+  - text: "Next, I'll recommend a preparatory activity to do after this and before the next session, which you'll get invited to about 3 days from now."
   utter_intro_session1_4:
   - text: "And in the end, I'll briefly tell you about our next session."
   utter_intro_session1_5:
@@ -632,7 +632,7 @@ responses:
         - type: slot
           name: session_num
           value: "2"
-      text: "And finally, I'll recommend you a new preparatory activity to do after this and before the next session, which you'll again get invited to about 2 days from now."
+      text: "And finally, I'll recommend a new preparatory activity to do after this and before the next session, which you'll again get invited to about 3 days from now."
     - condition:
         - type: slot
           name: session_num
@@ -1601,7 +1601,7 @@ responses:
         - type: slot
           name: session_num
           value: "3"
-      text: "And remember that there's another conversation with me that you'll get invited to about 2 days from now."
+      text: "And remember that there's another conversation with me that you'll get invited to about 3 days from now."
       buttons:
       - payload: /confirm_next_part
         title: "Yes!"
@@ -1621,7 +1621,7 @@ responses:
         - type: slot
           name: session_num
           value: "5" 
-      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 2 days from now."
+      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 3 days from now."
       buttons:
       - payload: /confirm_next_part
         title: "Alright"
