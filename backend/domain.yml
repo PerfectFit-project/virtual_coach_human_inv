@@ -1572,7 +1572,7 @@ responses:
     
     - text: "That's all for this session. I'll be sending you a message with your activity on Prolific right after this session."
   utter_mention_human_support:
-  - text: "And before the next session, you will also receive a feedback message from one of the human coaches Karina and Goda on Prolific.\nWe will ask you to confirm having read the message and may only invite you to the next session if you do confirm."
+  - text: "And before the next session, you will also receive a feedback message from one of the human coaches Karina and Goda on Prolific.\nYou will be asked to confirm having read the message and may only be invited to the next session if you do confirm."
     buttons:
     - payload: /confirm_next_part
       title: "Okay"
