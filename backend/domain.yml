@@ -1650,17 +1650,17 @@ responses:
         - type: slot
           name: session_num
           value: "3" 
-      text: "Perfect! And this is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=C17RURNZ"
+      text: "Perfect! And this is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=CMSL0B76"
     - condition:
         - type: slot
           name: session_num
           value: "4" 
-      text: "Nice! And here you have your completion link: https://app.prolific.co/submissions/complete?cc=C10X5POS"
+      text: "Nice! And here you have your completion link: https://app.prolific.co/submissions/complete?cc=CT1AYS3D"
     - condition:
         - type: slot
           name: session_num
           value: "5" 
-      text: "Perfect! Here is your completion link for this session: https://app.prolific.co/submissions/complete?cc=CKJUD15J"
+      text: "Perfect! Here is your completion link for this session: https://app.prolific.co/submissions/complete?cc=CHVM52CW"
      
     - text: "Alright!"
     
