@@ -1645,7 +1645,7 @@ responses:
         - type: slot
           name: session_num
           value: "2" 
-      text: "Cool! And here is your completion link: https://app.prolific.co/submissions/complete?cc=CYGVKBY7"
+      text: "Cool! And here is your completion link: https://app.prolific.co/submissions/complete?cc=C1LB5YM2"
     - condition:
         - type: slot
           name: session_num
