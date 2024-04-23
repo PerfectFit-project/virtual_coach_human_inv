@@ -2,7 +2,7 @@
 
 This is the implementation of the virtual coach Kai that proposes preparatory activities for quitting smoking or vaping (e.g., envisioning one's desired future self after quitting, creating a motivational slogan, learning how to get better sleep) in up to five sessions. Between the sessions, a human coach might send feedback messages to participants on the crowdsourcing platform Prolific.
 
-The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment), [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev), as well as [the implementation of the virtual coach Sam](https://github.com/PerfectFit-project/virtual_coach_rl_persuasion_algorithm).
+The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment), [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev), [the implementation of the virtual coach Sam](https://github.com/PerfectFit-project/virtual_coach_rl_persuasion_algorithm), and the [implementation of the virtual coach Mel](https://github.com/PerfectFit-project/virtual_coach_useful_activities).
 
 
 ## Conversation Structure
@@ -12,6 +12,8 @@ Each user can have up to 5 conversational sessions with Kai. These sessions have
 <img src = "Readme_images/conversation_structure.png" width = "500" title="Conversation structure.">
 
 A demo video of the second conversational session can be found ... .
+
+The preparatory activities that are proposed can be found in `actions/Activities.xlsx`.
 
 
 ## Components
@@ -63,8 +65,10 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
-   - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
-      - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`.
+   - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1&s=1`. 
+      - `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones. 
+	  - `s` determines whether the session is run as a smoker or vaper.
+      - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1&s=1`.
    
    - The chat should look something like this:
    
@@ -73,12 +77,12 @@ To run this project on a Google Compute Engine, I followed these steps:
    
 This project uses an [SQLTrackerStore](https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
    - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this [here](https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334).
-      - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there. Check for yourself using DBeaver.
+      - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there.
 	  - To delete the database content, just remove the "data"-folder on your Google Compute Engine instance.
 
 
 The project further uses an mysql database to store specific data from the conversations:
-   - The database is also persistent. The folder "data_mysql" is used for this, as set up in docker-compose.yml.
+   - The database is also persistent. The folder "data_mysql" is used for this, as set up in `docker-compose.yml`.
    - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
    - There are two tables:
       - sessiondata: stores data from the sessions that we want to save (e.g., mood, experience with previous activity).
@@ -99,6 +103,6 @@ Some errors I got during the setup:
 
 ## License
 
-Copyright (C) 2023 Delft University of Technology.
+Copyright (C) 2024 Delft University of Technology.
 
 Licensed under the Apache License, version 2.0. See LICENSE for details.
