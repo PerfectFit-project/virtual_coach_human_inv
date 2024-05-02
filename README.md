@@ -11,7 +11,7 @@ Each user can have up to 5 conversational sessions with Kai. These sessions have
 
 <img src = "Readme_images/conversation_structure.png" width = "500" title="Conversation structure.">
 
-A demo video of the second conversational session can be found ... .
+A demo video of the third conversational session can be found [here](https://youtu.be/gLiy5AnolYE).
 
 The preparatory activities that are proposed can be found in `actions/Activities.xlsx`.
 
